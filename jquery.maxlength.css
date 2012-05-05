@@ -1,0 +1,7 @@
+/* Styles for Max Length plugin */
+.maxlength-feedback {
+	font-size: 75%;
+}
+.maxlength-full {
+	background-color: #fcc;
+}
