@@ -1,5 +1,5 @@
 ﻿/* http://keith-wood.name/maxlength.html
-   Textarea Max Length for jQuery v1.0.0.
+   Textarea Max Length for jQuery v1.0.1.
    Written by Keith Wood (kwood{at}iinet.com.au) May 2009.
    Dual licensed under the GPL (http://dev.jquery.com/browser/trunk/jquery/GPL-LICENSE.txt) and 
    MIT (http://dev.jquery.com/browser/trunk/jquery/MIT-LICENSE.txt) licenses. 
@@ -111,8 +111,19 @@ $.extend(MaxLength.prototype, {
 			unbind('.maxlength').
 			nextAll('.' + this._feedbackClass).remove();
 		$.removeData(target[0], PROP_NAME);
+	},
+
+	/* Retrieve the current instance settings.
+	   @param  target  (element) the control to check
+	   @return  (object) the current instance settings */
+	_settingsMaxLength: function(target) {
+		var inst = $.data(target, PROP_NAME);
+		return inst.settings;
 	}
 });
+
+// The list of commands that return values and don't permit chaining
+var getters = ['settings'];
 
 /* Attach the max length functionality to a jQuery selection.
    @param  command  (string) the command to run (optional, default 'attach')
@@ -120,6 +131,10 @@ $.extend(MaxLength.prototype, {
    @return  (jQuery) for chaining further calls */
 $.fn.maxlength = function(options) {
 	var otherArgs = Array.prototype.slice.call(arguments, 1);
+	if ($.inArray(options, getters) > -1) {
+		return $.maxlength['_' + options + 'MaxLength'].
+			apply($.maxlength, [this[0]].concat(otherArgs));
+	}
 	return this.each(function() {
 		if (typeof options == 'string') {
 			$.maxlength['_' + options + 'MaxLength'].
