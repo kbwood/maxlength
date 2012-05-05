@@ -1,5 +1,5 @@
 ﻿/* http://keith-wood.name/maxlength.html
-   Textarea Max Length for jQuery v1.0.2.
+   Textarea Max Length for jQuery v1.0.3.
    Written by Keith Wood (kwood{at}iinet.com.au) May 2009.
    Dual licensed under the GPL (http://dev.jquery.com/browser/trunk/jquery/GPL-LICENSE.txt) and 
    MIT (http://dev.jquery.com/browser/trunk/jquery/MIT-LICENSE.txt) licenses. 
@@ -45,7 +45,7 @@ $.extend(MaxLength.prototype, {
 	},
 
 	/* Attach the max length functionality to a textarea.
-	   @param  textarea    (element) the control to affect
+	   @param  textarea  (element) the control to affect
 	   @param  settings  (object) the custom options for this instance */
 	_attachMaxLength: function(textarea, settings) {
 		textarea = $(textarea);
@@ -134,20 +134,40 @@ $.extend(MaxLength.prototype, {
 	_checkLength: function(textarea) {
 		var inst = $.data(textarea[0], PROP_NAME);
 		var value = textarea.val();
-		textarea.toggleClass(this._fullClass, value.length >= inst.settings.max).
-			toggleClass(this._overflowClass, value.length > inst.settings.max);
-		if (value.length > inst.settings.max && inst.settings.truncate) {
-			value = value.substring(0, inst.settings.max);
-			textarea.val(value);
+		var len = value.replace(/\r\n/g, '~~').replace(/\n/g, '~~').length;
+		textarea.toggleClass(this._fullClass, len >= inst.settings.max).
+			toggleClass(this._overflowClass, len > inst.settings.max);
+		if (len > inst.settings.max && inst.settings.truncate) {
+			var lines = textarea.val().split(/\r\n|\n/);
+			value = '';
+			var i = 0;
+			while (value.length < inst.settings.max && i < lines.length) {
+				value += lines[i].substring(0, inst.settings.max - value.length) + '\r\n';
+				i++;
+			}
+			textarea.val(value.substring(0, inst.settings.max));
+			textarea[0].scrollTop = textarea[0].scrollHeight; // Scroll to bottom
+			len = inst.settings.max;
 		}
-		var feedback = (value.length > inst.settings.max ?
+		var feedback = (len > inst.settings.max ?
 			inst.settings.overflowText : inst.settings.feedbackText).
-				replace(/\{c\}/, value.length).replace(/\{m\}/, inst.settings.max).
-				replace(/\{r\}/, inst.settings.max - value.length).
-				replace(/\{o\}/, value.length - inst.settings.max);
-		inst.feedbackTarget.toggleClass(this._fullClass, value.length >= inst.settings.max).
-			toggleClass(this._overflowClass, value.length > inst.settings.max).
-			text(feedback).val(feedback);
+				replace(/\{c\}/, len).replace(/\{m\}/, inst.settings.max).
+				replace(/\{r\}/, inst.settings.max - len).
+				replace(/\{o\}/, len - inst.settings.max);
+		inst.feedbackTarget.toggleClass(this._fullClass, len >= inst.settings.max).
+			toggleClass(this._overflowClass, len > inst.settings.max);
+		try {
+			inst.feedbackTarget.text(feedback);
+		}
+		catch(e) {
+			// Ignore
+		}
+		try {
+			inst.feedbackTarget.val(feedback);
+		}
+		catch(e) {
+			// Ignore
+		}
 	},
 
 	/* Remove the max length functionality from a control.
