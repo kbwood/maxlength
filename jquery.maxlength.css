@@ -1,4 +1,4 @@
-/* Styles for Max Length plugin v1.0.2 */
+/* Styles for Max Length plugin v1.1.0 */
 .maxlength-feedback {
 	margin-left: 0.5em;
 	font-size: 75%;
@@ -8,4 +8,7 @@
 }
 .maxlength-overflow {
 	background-color: #fcc;
+}
+.maxlength-disabled {
+	opacity: 0.5;
 }
