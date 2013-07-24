@@ -72,7 +72,13 @@ $.extend(MaxLength.prototype, {
 				return (event.ctrlKey || event.metaKey || ch == '\u0000' ||
 					$(this).val().length < inst.options.max);
 			}).
-			bind('keyup.' + this.propertyName, function() { plugin._checkLength($(this)); });
+			bind('keyup.' + this.propertyName, function() { plugin._checkLength($(this)); }).
+			bind('paste.' + this.propertyName, function (e) {
+				var self = this;
+                    		setTimeout(function() {
+                        		plugin._checkLength($(self));
+                    		}, 100);
+                	});
 		this._optionPlugin(target, options);
 	},
 
