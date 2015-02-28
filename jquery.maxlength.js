@@ -1,7 +1,7 @@
 ﻿/* http://keith-wood.name/maxlength.html
-   Textarea Max Length for jQuery v2.0.0.
+   Textarea Max Length for jQuery v2.0.1.
    Written by Keith Wood (kwood{at}iinet.com.au) May 2009.
-   Licensed under the MIT (https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) license. 
+   Licensed under the MIT (http://keith-wood.name/licence.html) license. 
    Please attribute the author if you use it. */
 
 (function($) { // hide the namespace
@@ -82,7 +82,16 @@
 					return (event.ctrlKey || event.metaKey || ch == '\u0000' ||
 						$(this).val().length < inst.options.max);
 				}).
-				on('keyup.' + inst.name, function() { $.maxlength._checkLength(elem); });
+				on('keyup.' + inst.name + ' paste.' + inst.name + ' cut.' + inst.name, function(e) { 
+					if (e.type === 'keyup') {
+						$.maxlength._checkLength(elem); 
+					}
+					else {
+						setTimeout(function() {
+							$.maxlength._checkLength(elem); 
+						}, 1);
+					}
+				});
 		},
 
 		_optionsChanged: function(elem, inst, options) {
