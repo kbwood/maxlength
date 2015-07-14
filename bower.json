@@ -1,7 +1,7 @@
-﻿{
+{
   "name": "kbwood_maxlength",
-  "version": "2.0.1",
-  "description": "This plugin applies a maximum length to a textarea. * Always truncate or only warn when limit reached. * Customise the user feedback.",
+  "version": "2.0.2",
+  "description": "This plugin applies a maximum length to a textarea. Always truncate or only warn when limit reached. Customise the user feedback.",
   "keywords": [
     "maxlength",
     "textarea",
@@ -20,9 +20,14 @@
     "*.md",
     "*.png",
     "jquery.maxlength-*.js",
-    "jquery.*.min.js"
+    "jquery.*.min.js",
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
   ],
-  "dependencies": [
+  "dependencies": {
     "jquery": ">=1.7"
-  ]
+  }
 }
