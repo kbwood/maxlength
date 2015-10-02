@@ -22,7 +22,7 @@
     "jquery.maxlength-*.js",
     "jquery.*.min.js"
   ],
-  "dependencies": [
+  "dependencies": {
     "jquery": ">=1.7"
-  ]
+  }
 }
