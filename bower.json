@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "kbwood_maxlength",
   "version": "2.0.1",
   "description": "This plugin applies a maximum length to a textarea. * Always truncate or only warn when limit reached. * Customise the user feedback.",
