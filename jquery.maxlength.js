@@ -180,7 +180,7 @@
 					replace(/\{r\}/, inst.options.max - len).
 					replace(/\{o\}/, len - inst.options.max);
 			try {
-				inst.feedbackTarget.text(feedback);
+				inst.feedbackTarget.html(feedback);
 			}
 			catch(e) {
 				// Ignore
