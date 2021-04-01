@@ -67,7 +67,7 @@
 		_fullClass: pluginName + '-full', // Class name for indicating the textarea is full
 		_overflowClass: pluginName + '-overflow', // Class name for indicating the textarea is overflowing
 		_disabledClass: pluginName + '-disabled', // Class name for indicating the textarea is disabled
-
+		_requiredClass: pluginName + '-required', // Class name for showing the count color when textarea is required
 		_instSettings: function(elem, options) {
 			return {feedbackTarget: $([])};
 		},
@@ -181,6 +181,7 @@
 					replace(/\{o\}/, len - inst.options.max);
 			try {
 				inst.feedbackTarget.html(feedback);
+				if (len > 0) inst.feedbackTarget.find('em').removeClass(this._requiredClass);
 			}
 			catch(e) {
 				// Ignore
